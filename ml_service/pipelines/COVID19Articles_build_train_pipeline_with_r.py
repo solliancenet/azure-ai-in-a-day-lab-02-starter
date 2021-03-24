@@ -26,7 +26,7 @@ def main():
 
     # Create a reusable Azure ML environment
     # Make sure to include `r-essentials'
-    #   in diabetes_regression/conda_dependencies.yml
+    #   in COVID19Articles/conda_dependencies.yml
     environment = get_environment(
         aml_workspace,
         e.aml_env_name,
@@ -40,7 +40,7 @@ def main():
         name="Train Model",
         script_name="train_with_r.py",
         compute_target=aml_compute,
-        source_directory="diabetes_regression/training/R",
+        source_directory="COVID19Articles/training/R",
         runconfig=run_config,
         allow_reuse=False,
     )

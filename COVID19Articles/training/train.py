@@ -26,28 +26,30 @@ POSSIBILITY OF SUCH DAMAGE.
 
 import os
 import pandas as pd
-from sklearn.linear_model import Ridge
+import numpy as np
 from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
 
 
 # Split the dataframe into test and train data
 def split_data(df):
-    X = df.drop('Y', axis=1).values
-    y = df['Y'].values
-
+    a = np.empty(0, dtype=str)
+    columns = np.append(a, np.arange(0, 128))
+    y = df['cluster']
+    X = df[columns]
     X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=0.2, random_state=0)
+        X, y, test_size=0.33, random_state=8)
     data = {"train": {"X": X_train, "y": y_train},
             "test": {"X": X_test, "y": y_test}}
     return data
 
 
 # Train the model, return the model
-def train_model(data, ridge_args):
-    reg_model = Ridge(**ridge_args)
-    reg_model.fit(data["train"]["X"], data["train"]["y"])
-    return reg_model
+def train_model(data, class_args):
+    class_model = DecisionTreeClassifier(**class_args)
+    class_model.fit(data["train"]["X"], data["train"]["y"])
+    return class_model
 
 
 # Evaluate the metrics for the model
@@ -62,17 +64,17 @@ def main():
     print("Running train.py")
 
     # Define training parameters
-    ridge_args = {"alpha": 0.5}
+    class_args = {"max_depth": 5}
 
     # Load the training data as dataframe
     data_dir = "data"
-    data_file = os.path.join(data_dir, 'diabetes.csv')
+    data_file = os.path.join(data_dir, 'metadata_clusters.csv')
     train_df = pd.read_csv(data_file)
 
     data = split_data(train_df)
 
     # Train the model
-    model = train_model(data, ridge_args)
+    model = train_model(data, class_args)
 
     # Log the metrics for the model
     metrics = get_model_metrics(model, data)

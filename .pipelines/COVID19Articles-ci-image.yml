@@ -14,10 +14,10 @@ trigger:
     include:
     - ml_service/util/create_scoring_image.py
     - ml_service/util/Dockerfile
-    - diabetes_regression/scoring/
+    - COVID19Articles/scoring/
     exclude:
-    - diabetes_regression/scoring/deployment_config_aci.yml
-    - diabetes_regression/scoring/deployment_config_aks.yml
+    - COVID19Articles/scoring/deployment_config_aci.yml
+    - COVID19Articles/scoring/deployment_config_aks.yml
 
 pool: 
   vmImage: 'ubuntu-latest'
@@ -30,7 +30,7 @@ variables:
   value: 'scoring/scoreB.py'
 
 steps:
-- template: diabetes_regression-package-model-template.yml
+- template: COVID19Articles-package-model-template.yml
   parameters:
     modelId: $(MODEL_NAME):$(MODEL_VERSION)
     scoringScriptPath: '$(Build.SourcesDirectory)/$(SOURCES_DIR_TRAIN)/$(SCORE_SCRIPT)'

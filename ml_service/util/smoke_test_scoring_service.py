@@ -1,14 +1,17 @@
 import argparse
 import requests
 import time
+import numpy
 from azureml.core import Workspace
 from azureml.core.webservice import AksWebservice, AciWebservice
 from ml_service.util.env_variables import Env
 import secrets
 
 
-input = {"data": [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-                  [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]]}
+list_of_num = [
+      numpy.arange(1, 129).tolist(),
+      numpy.arange(128, 0, -1).tolist()]
+input = {"data": list_of_num}
 output_len = 2
 
 

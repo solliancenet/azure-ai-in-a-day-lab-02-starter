@@ -1,7 +1,7 @@
 {
     "training":
     {
-        "alpha": 0.4
+        "max_depth": 5
     },
     "evaluation":
     {

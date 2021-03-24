@@ -72,7 +72,7 @@ class Helper:
     def validate_args(self):
         # Validate arguments
         if (os.path.isdir(self._project_directory) is False):
-            raise Exception("Not a valid directory. Please provide an absolute directory path.")  # NOQA: E501
+            raise Exception(f'Not a valid directory {self._project_directory}. Please provide an absolute directory path.')  # NOQA: E501
         if (len(self._project_name) < 3 or len(self._project_name) > 15):
             raise Exception("Invalid project name length. Project name should be 3 to 15 chars long, letters and underscores only.")  # NOQA: E501
         if (not re.search("^[\\w_]+$", self._project_name)):

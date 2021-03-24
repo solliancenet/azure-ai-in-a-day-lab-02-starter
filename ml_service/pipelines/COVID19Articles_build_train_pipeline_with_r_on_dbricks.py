@@ -29,7 +29,7 @@ def main():
         name="DBPythonInLocalMachine",
         num_workers=1,
         python_script_name="train_with_r_on_databricks.py",
-        source_directory="diabetes_regression/training/R",
+        source_directory="COVID19Articles/training/R",
         run_name='DB_Python_R_demo',
         existing_cluster_id=e.db_cluster_id,
         compute_target=aml_compute,

@@ -34,7 +34,7 @@ run = Run.get_context()
 # the following code is a good starting point for you
 # use
 # python -m evaluate.evaluate_model
-# in diabetes_regression folder context
+# in COVID19Articles folder context
 
 # if (run.id.startswith('OfflineRun')):
 #     from dotenv import load_dotenv
@@ -42,7 +42,7 @@ run = Run.get_context()
 #     load_dotenv()
 #     sources_dir = os.environ.get("SOURCES_DIR_TRAIN")
 #     if (sources_dir is None):
-#         sources_dir = 'diabetes_regression'
+#         sources_dir = 'COVID19Articles'
 #     path_to_util = os.path.join(".", sources_dir, "util")
 #     sys.path.append(os.path.abspath(path_to_util))  # NOQA: E402
 #     from model_helper import get_model
@@ -83,7 +83,7 @@ parser.add_argument(
     "--model_name",
     type=str,
     help="Name of the Model",
-    default="diabetes_model.pkl",
+    default="COVID19Articles_model.pkl",
 )
 
 parser.add_argument(

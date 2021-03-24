@@ -1,4 +1,4 @@
-# Continuous Integration (CI) pipeline that orchestrates the batch scoring of the diabetes_regression model.
+# Continuous Integration (CI) pipeline that orchestrates the batch scoring of the COVID19Articles model.
 
 # Runtime parameters to select artifacts
 parameters:
@@ -28,12 +28,12 @@ trigger:
     - master
   paths:
     include:
-    - diabetes_regression/scoring/parallel_batchscore.py
-    - ml_service/pipelines/diabetes_regression_build_parallel_batchscore_pipeline.py
+    - COVID19Articles/scoring/parallel_batchscore.py
+    - ml_service/pipelines/COVID19Articles_build_parallel_batchscore_pipeline.py
     - ml_service/pipelines/run_parallel_batchscore_pipeline.py
 
 variables:
-- template: diabetes_regression-variables-template.yml
+- template: COVID19Articles-variables-template.yml
 - group: devopsforai-aml-vg
 
 pool:
@@ -49,7 +49,7 @@ stages:
     timeoutInMinutes: 0
     steps:
     - template: code-quality-template.yml
-    - template: diabetes_regression-get-model-id-artifact-template.yml
+    - template: COVID19Articles-get-model-id-artifact-template.yml
       parameters:
         projectId: '$(resources.pipeline.model-train-ci.projectID)'
         pipelineId: '$(resources.pipeline.model-train-ci.pipelineID)'
@@ -65,7 +65,7 @@ stages:
           set -e # fail on error
           export SUBSCRIPTION_ID=$(az account show --query id -o tsv)
           # Invoke the Python building and publishing a training pipeline
-          python -m ml_service.pipelines.diabetes_regression_build_parallel_batchscore_pipeline
+          python -m ml_service.pipelines.COVID19Articles_build_parallel_batchscore_pipeline
       env:
         SCORING_DATASTORE_ACCESS_KEY: $(SCORING_DATASTORE_ACCESS_KEY)
 
