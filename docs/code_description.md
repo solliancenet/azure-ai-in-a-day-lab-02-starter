@@ -9,7 +9,7 @@ High level directory structure for this repository:
 ├── bootstrap             <- Python script to initialize this repository with a custom project name.
 ├── charts                <- Helm charts to deploy resources on Azure Kubernetes Service(AKS).
 ├── data                  <- Initial set of data to train and evaluate model. Not for use to store data.
-├── diabetes_regression   <- The top-level folder for the ML project.
+├── COVID19Articles   <- The top-level folder for the ML project.
 │   ├── evaluate          <- Python script to evaluate trained ML model.
 │   ├── register          <- Python script to register trained ML model with Azure Machine Learning Service.
 │   ├── scoring           <- Python score.py to deploy trained ML model.
@@ -30,7 +30,7 @@ High level directory structure for this repository:
 ├── README.md             <- The top-level README for developers using this project.  
 ```
 
-The repository provides a template with folders structure suitable for maintaining multiple ML projects. There are common folders such as ***.pipelines***, ***environment_setup***, ***ml_service*** and folders containing the code base for each ML project. This repository contains a single sample ML project in the ***diabetes_regression*** folder. This folder is going to be automatically renamed to your project name if you follow the [bootstrap procedure](../bootstrap/README.md).
+The repository provides a template with folders structure suitable for maintaining multiple ML projects. There are common folders such as ***.pipelines***, ***environment_setup***, ***ml_service*** and folders containing the code base for each ML project. This repository contains a single sample ML project in the ***COVID19Articles*** folder. This folder is going to be automatically renamed to your project name if you follow the [bootstrap procedure](../bootstrap/README.md).
 
 ### Environment Setup
 
@@ -50,20 +50,20 @@ The repository provides a template with folders structure suitable for maintaini
 
 - `.pipelines/abtest.yml` : a pipeline demonstrating [Canary deployment strategy](./docs/canary_ab_deployment.md).
 - `.pipelines/code-quality-template.yml` : a pipeline template used by the CI and PR pipelines. It contains steps performing linting, data and unit testing.
-- `.pipelines/diabetes_regression-ci-image.yml` : a pipeline building a scoring image for the diabetes regression model.
-- `.pipelines/diabetes_regression-ci.yml` : a pipeline triggered when the code is merged into **master**. It performs linting, data integrity testing, unit testing, building and publishing an ML pipeline.
-- `.pipelines/diabetes_regression-cd.yml` : a pipeline triggered when the code is merged into **master** and the `.pipelines/diabetes_regression-ci.yml` completes. It performs linting, data integrity testing, unit testing, building and publishing an ML pipeline.
-- `.pipelines/diabetes_regression-package-model-template.yml` : a pipeline triggered when the code is merged into **master**. It deploys the registered model to a target.
-- `.pipelines/diabetes_regression-get-model-id-artifact-template.yml` : a pipeline template used by the `.pipelines/diabetes_regression-cd.yml` pipeline. It takes the model metadata artifact published by the previous pipeline and gets the model ID.
-- `.pipelines/diabetes_regression-publish-model-artifact-template.yml` : a pipeline template used by the `.pipelines/diabetes_regression-ci.yml` pipeline. It finds out if a new model was registered and publishes a pipeline artifact containing the model metadata.
+- `.pipelines/COVID19Articles-ci-image.yml` : a pipeline building a scoring image for the diabetes regression model.
+- `.pipelines/COVID19Articles-ci.yml` : a pipeline triggered when the code is merged into **master**. It performs linting, data integrity testing, unit testing, building and publishing an ML pipeline.
+- `.pipelines/COVID19Articles-cd.yml` : a pipeline triggered when the code is merged into **master** and the `.pipelines/diabetes_regression-ci.yml` completes. It performs linting, data integrity testing, unit testing, building and publishing an ML pipeline.
+- `.pipelines/COVID19Articles-package-model-template.yml` : a pipeline triggered when the code is merged into **master**. It deploys the registered model to a target.
+- `.pipelines/COVID19Articles-get-model-id-artifact-template.yml` : a pipeline template used by the `.pipelines/COVID19Articles-cd.yml` pipeline. It takes the model metadata artifact published by the previous pipeline and gets the model ID.
+- `.pipelines/COVID19Articles-publish-model-artifact-template.yml` : a pipeline template used by the `.pipelines/COVID19Articles-ci.yml` pipeline. It finds out if a new model was registered and publishes a pipeline artifact containing the model metadata.
 - `.pipelines/helm-*.yml` : pipeline templates used by the `.pipelines/abtest.yml` pipeline.
 - `.pipelines/pr.yml` : a pipeline triggered when a **pull request** to the **master** branch is created. It performs linting, data integrity testing and unit testing only.
 
 ### ML Services
 
-- `ml_service/pipelines/diabetes_regression_build_train_pipeline.py` : builds and publishes an ML training pipeline. It uses Python on ML Compute.
-- `ml_service/pipelines/diabetes_regression_build_train_pipeline_with_r.py` : builds and publishes an ML training pipeline. It uses R on ML Compute.
-- `ml_service/pipelines/diabetes_regression_build_train_pipeline_with_r_on_dbricks.py` : builds and publishes an ML training pipeline. It uses R on Databricks Compute.
+- `ml_service/pipelines/COVID19Articles_build_train_pipeline.py` : builds and publishes an ML training pipeline. It uses Python on ML Compute.
+- `ml_service/pipelines/COVID19Articles_build_train_pipeline_with_r.py` : builds and publishes an ML training pipeline. It uses R on ML Compute.
+- `ml_service/pipelines/COVID19Articles_build_train_pipeline_with_r_on_dbricks.py` : builds and publishes an ML training pipeline. It uses R on Databricks Compute.
 - `ml_service/pipelines/run_train_pipeline.py` : invokes a published ML training pipeline (Python on ML Compute) via REST API.
 - `ml_service/util` : contains common utility functions used to build and publish an ML training pipeline.
 
@@ -74,24 +74,24 @@ The repository provides a template with folders structure suitable for maintaini
 
 ### Training Step
 
-- `diabetes_regression/training/train_aml.py`: a training step of an ML training pipeline.
-- `diabetes_regression/training/train.py` : ML functionality called by train_aml.py
-- `diabetes_regression/training/R/r_train.r` : training a model with R basing on a sample dataset (weight_data.csv).
-- `diabetes_regression/training/R/train_with_r.py` : a python wrapper (ML Pipeline Step) invoking R training script on ML Compute
-- `diabetes_regression/training/R/train_with_r_on_databricks.py` : a python wrapper (ML Pipeline Step) invoking R training script on Databricks Compute
-- `diabetes_regression/training/R/weight_data.csv` : a sample dataset used by R script (r_train.r) to train a model
-- `diabetes_regression/training/R/test_train.py` : a unit test for the training script(s)
+- `COVID19Articles/training/train_aml.py`: a training step of an ML training pipeline.
+- `COVID19Articles/training/train.py` : ML functionality called by train_aml.py
+- `COVID19Articles/training/R/r_train.r` : training a model with R basing on a sample dataset (weight_data.csv).
+- `COVID19Articles/training/R/train_with_r.py` : a python wrapper (ML Pipeline Step) invoking R training script on ML Compute
+- `COVID19Articles/training/R/train_with_r_on_databricks.py` : a python wrapper (ML Pipeline Step) invoking R training script on Databricks Compute
+- `COVID19Articles/training/R/weight_data.csv` : a sample dataset used by R script (r_train.r) to train a model
+- `COVID19Articles/training/R/test_train.py` : a unit test for the training script(s)
 
 ### Evaluation Step
 
-- `diabetes_regression/evaluate/evaluate_model.py` : an evaluating step of an ML training pipeline which registers a new trained model if evaluation shows the new model is more performant than the previous one.
+- `COVID19Articles/evaluate/evaluate_model.py` : an evaluating step of an ML training pipeline which registers a new trained model if evaluation shows the new model is more performant than the previous one.
 
 ### Registering Step
 
-- `diabetes_regression/evaluate/register_model.py` : registers a new trained model if evaluation shows the new model is more performant than the previous one.
+- `COVID19Articles/evaluate/register_model.py` : registers a new trained model if evaluation shows the new model is more performant than the previous one.
 
 ### Scoring
 
-- `diabetes_regression/scoring/score.py` : a scoring script which is about to be packed into a Docker Image along with a model while being deployed to QA/Prod environment.
-- `diabetes_regression/scoring/inference_config.yml`, `deployment_config_aci.yml`, `deployment_config_aks.yml` : configuration files for the [AML Model Deploy](https://marketplace.visualstudio.com/items?itemName=ms-air-aiagility.private-vss-services-azureml&ssr=false#overview) pipeline task for ACI and AKS deployment targets.
-- `diabetes_regression/scoring/scoreA.py`, `diabetes_regression/scoring/scoreB.py` : simplified scoring files for the [Canary deployment sample](./docs/canary_ab_deployment.md).
+- `COVID19Articles/scoring/score.py` : a scoring script which is about to be packed into a Docker Image along with a model while being deployed to QA/Prod environment.
+- `COVID19Articles/scoring/inference_config.yml`, `deployment_config_aci.yml`, `deployment_config_aks.yml` : configuration files for the [AML Model Deploy](https://marketplace.visualstudio.com/items?itemName=ms-air-aiagility.private-vss-services-azureml&ssr=false#overview) pipeline task for ACI and AKS deployment targets.
+- `COVID19Articles/scoring/scoreA.py`, `COVID19Articles/scoring/scoreB.py` : simplified scoring files for the [Canary deployment sample](./docs/canary_ab_deployment.md).
