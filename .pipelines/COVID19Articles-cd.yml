@@ -72,7 +72,7 @@ stages:
         inlineScript: |
           set -e # fail on error
           export SUBSCRIPTION_ID=$(az account show --query id -o tsv)
-          python -m ml_service.util.smoke_test_scoring_service --type ACI --service "$(ACI_DEPLOYMENT_NAME)"
+          python -m COVID19Articles.ml_service.util.smoke_test_scoring_service --type ACI --service "$(ACI_DEPLOYMENT_NAME)"
 
 - stage: 'Deploy_AKS'
   displayName: 'Deploy to AKS'
@@ -119,4 +119,4 @@ stages:
         inlineScript: |
           set -e # fail on error
           export SUBSCRIPTION_ID=$(az account show --query id -o tsv)
-          python -m ml_service.util.smoke_test_scoring_service --type AKS --service "$(AKS_DEPLOYMENT_NAME)"
+          python -m COVID19Articles.ml_service.util.smoke_test_scoring_service --type AKS --service "$(AKS_DEPLOYMENT_NAME)"

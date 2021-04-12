@@ -13,9 +13,9 @@ trigger:
   paths:
     exclude:
     - docs/
-    - environment_setup/
-    - ml_service/util/create_scoring_image.*
-    - ml_service/util/smoke_test_scoring_service.py
+    - COVID19Articles/environment_setup/
+    - COVID19Articles/ml_service/util/create_scoring_image.*
+    - COVID19Articles/ml_service/util/smoke_test_scoring_service.py
 
 variables:
 - template: COVID19Articles-variables-template.yml
@@ -47,7 +47,7 @@ stages:
         inlineScript: |
           set -e
           export SUBSCRIPTION_ID=$(az account show --query id -o tsv)
-          python -m ml_service.util.create_scoring_image --output_image_location_file image_location.txt          
+          python -m COVID19Articles.ml_service.util.create_scoring_image --output_image_location_file image_location.txt          
       displayName: 'Create Scoring Image'
       name: 'buildscoringimage'
 

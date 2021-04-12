@@ -57,7 +57,7 @@ variables:
   - name: DB_CLUSTER_ID
     value: ""
 
-  # These are the default values set in ml_service\util\env_variables.py. Uncomment and override if desired.
+  # These are the default values set in COVID19Articles\ml_service\util\env_variables.py. Uncomment and override if desired.
   # Set to false to disable the evaluation step in the ML pipeline and register the newly trained model unconditionally.
   # - name: RUN_EVALUATION
   #   value: "true"

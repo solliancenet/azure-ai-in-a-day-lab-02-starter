@@ -12,8 +12,8 @@ trigger:
     - master
   paths:
     include:
-    - ml_service/util/create_scoring_image.py
-    - ml_service/util/Dockerfile
+    - COVID19Articles/ml_service/util/create_scoring_image.py
+    - COVID19Articles/ml_service/util/Dockerfile
     - COVID19Articles/scoring/
     exclude:
     - COVID19Articles/scoring/deployment_config_aci.yml

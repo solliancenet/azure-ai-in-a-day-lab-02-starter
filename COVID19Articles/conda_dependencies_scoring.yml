@@ -16,7 +16,7 @@
 
 # These dependencies are used to create the environment used by the batch score 
 # pipeline step
-name: diabetes_regression_scoring_env
+name: COVID19Articles_scoring_env
 dependencies:
   # The python interpreter version.
   # Currently Azure ML Workbench only supports 3.5.2 and later.
