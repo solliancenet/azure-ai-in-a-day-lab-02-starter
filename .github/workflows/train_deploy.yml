@@ -7,6 +7,9 @@ on:
       - master
     paths:
       - 'COVID19Articles_GH/**'
+  repository_dispatch:
+    types: [storage-blobupdated]
+
 
 jobs:
   train-register:
