@@ -33,7 +33,7 @@ environment:
     DATASTORE_NAME : ''
   # Python details
   python:
-    # user_managed_dependencies=True indicates that the environmentwill be user managed. False indicates that AzureML willmanage the user environment.
+    # user_managed_dependencies=True indicates that the environment will be user managed. False indicates that AzureML willmanage the user environment.
     userManagedDependencies: false
     # The python interpreter path
     interpreterPath: python
@@ -48,7 +48,7 @@ environment:
     # Set True to perform this run inside a Docker container.
     enabled: true
     # Base image used for Docker-based runs. Mutually exclusive with base_dockerfile.
-    baseImage: mcr.microsoft.com/azureml/base:intelmpi2018.3-ubuntu16.04
+    baseImage: mcr.microsoft.com/azureml/openmpi3.1.2-ubuntu18.04:20210806.v1
     # Base Dockerfile used for Docker-based runs. Mutually exclusive with base_image
     baseDockerfile:
     # Set False if necessary to work around shared volume bugs.

@@ -23,7 +23,7 @@ dependencies:
 
   - pip:
       # Base AzureML SDK
-      - azureml-sdk
+      - azureml-sdk==1.27.*
 
       # Must match AzureML SDK version.
       # https://docs.microsoft.com/en-us/azure/machine-learning/concept-environments
