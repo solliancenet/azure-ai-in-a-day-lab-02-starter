@@ -25,6 +25,7 @@ POSSIBILITY OF SUCH DAMAGE.
 """
 from azureml.core import Run
 import argparse
+import json
 import traceback
 from util.model_helper import get_model
 
@@ -94,12 +95,21 @@ parser.add_argument(
 )
 
 args = parser.parse_args()
+
 if (args.run_id is not None):
     run_id = args.run_id
 if (run_id == 'amlcompute'):
     run_id = run.parent.id
 model_name = args.model_name
 metric_eval = "mse"
+
+download_location = run.input_datasets['train_input']
+print(f'Download location: {download_location}')
+with open(f'{download_location}/model_metrics.json', 'r') as f:
+    model_metrics = json.load(f)
+print(f'Model metrics: {model_metrics}')
+new_model_mse = model_metrics[metric_eval]
+print(f'New model MSE: {new_model_mse}')
 
 allow_run_cancel = args.allow_run_cancel
 # Parameterize the matrices on which the models should be compared
@@ -118,7 +128,8 @@ try:
         production_model_mse = 10000
         if (metric_eval in model.tags):
             production_model_mse = float(model.tags[metric_eval])
-        new_model_mse = float(run.parent.get_metrics().get(metric_eval))
+        # Cannot use this anymore due to AML SDK bug, replacing with train_input run input
+        # new_model_mse = float(run.parent.get_metrics().get(metric_eval))
         if (production_model_mse is None or new_model_mse is None):
             print("Unable to find", metric_eval, "metrics, "
                   "exiting evaluation")
