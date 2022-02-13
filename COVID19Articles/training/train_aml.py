@@ -25,7 +25,6 @@ POSSIBILITY OF SUCH DAMAGE.
 """
 from azureml.core.run import Run
 from azureml.core import Dataset, Datastore, Workspace
-import mlflow
 import os
 import argparse
 import joblib
@@ -115,7 +114,6 @@ def main():
     # train_output_path = args.train_output_path
 
     run = Run.get_context()
-    mlflow.set_tracking_uri(run.experiment.workspace.get_mlflow_tracking_uri())
 
     print("Getting training parameters")
 
@@ -132,7 +130,8 @@ def main():
     print(f"Parameters: {train_args}")
     for (k, v) in train_args.items():
         run.log(k, v)
-        run.parent.log(k, v)
+        # Cannot use this anymore due to AML SDK bug - run.parent.log fails randomly
+        # run.parent.log(k, v)
 
     # Get the dataset
     if (dataset_name):
