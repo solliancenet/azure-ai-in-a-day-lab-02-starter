@@ -3,6 +3,7 @@ from azureml.pipeline.steps import PythonScriptStep
 from azureml.pipeline.core import Pipeline, PipelineData
 from azureml.core import Workspace, Dataset, Datastore
 from azureml.core.runconfig import RunConfiguration
+from azureml.data import OutputFileDatasetConfig
 from COVID19Articles.ml_service.pipelines.load_sample_data import create_sample_data_csv
 from COVID19Articles.ml_service.util.attach_compute import get_compute
 from COVID19Articles.ml_service.util.env_variables import Env
@@ -98,6 +99,11 @@ def main():
         "pipeline_data", datastore=aml_workspace.get_default_datastore()
     )
 
+    # Create training output data to pass to evaluate step
+    train_output_data = OutputFileDatasetConfig(
+        name="train_output",
+        destination=(aml_workspace.get_default_datastore(), "training/{run-id}/model-metrics")).as_upload()
+
     train_step = PythonScriptStep(
         name="Train Model",
         script_name=e.train_script_path,
@@ -117,6 +123,8 @@ def main():
             caller_run_id_param,
             "--dataset_name",
             dataset_name,
+            "--train_output_path",
+            train_output_data
         ],
         runconfig=run_config,
         allow_reuse=True,
@@ -128,11 +136,12 @@ def main():
         script_name=e.evaluate_script_path,
         compute_target=aml_compute,
         source_directory=e.sources_directory_train,
+        inputs=[train_output_data.as_input(name="train_input")],
         arguments=[
             "--model_name",
             model_name_param,
             "--allow_run_cancel",
-            e.allow_run_cancel,
+            e.allow_run_cancel
         ],
         runconfig=run_config,
         allow_reuse=False,
