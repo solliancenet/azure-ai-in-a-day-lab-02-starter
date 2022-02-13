@@ -91,6 +91,11 @@ def main():
               rather than the one used while the pipeline creation")
     )
 
+    parser.add_argument(
+        "--train_output_path",
+        help=("Output location for training info containing model metrics.")
+    )
+
     args = parser.parse_args()
 
     print("Argument [model_name]: %s" % args.model_name)
@@ -99,12 +104,14 @@ def main():
     print("Argument [data_file_path]: %s" % args.data_file_path)
     print("Argument [caller_run_id]: %s" % args.caller_run_id)
     print("Argument [dataset_name]: %s" % args.dataset_name)
+    print("Argument [train_output_path]: %s" % args.train_output_path)
 
     model_name = args.model_name
     step_output_path = args.step_output
     dataset_version = args.dataset_version
     data_file_path = args.data_file_path
     dataset_name = args.dataset_name
+    # train_output_path = args.train_output_path
 
     run = Run.get_context()
 
@@ -123,7 +130,8 @@ def main():
     print(f"Parameters: {train_args}")
     for (k, v) in train_args.items():
         run.log(k, v)
-        run.parent.log(k, v)
+        # Cannot use this anymore due to AML SDK bug - run.parent.log fails randomly
+        # run.parent.log(k, v)
 
     # Get the dataset
     if (dataset_name):
@@ -154,7 +162,13 @@ def main():
     metrics = get_model_metrics(model, data)
     for (k, v) in metrics.items():
         run.log(k, v)
-        run.parent.log(k, v)
+        # Cannot use this anymore due to AML SDK bug - run.parent.log fails randomly
+        # run.parent.log(k, v)
+
+    # Ensure the target directory exists and then save model metrics to JSON file
+    os.makedirs(os.path.dirname(args.train_output_path), exist_ok=True)
+    with open(f'{args.train_output_path}/model_metrics.json', 'w') as f:
+        json.dump(metrics, f)
 
     # Pass model file to next step
     os.makedirs(step_output_path, exist_ok=True)
